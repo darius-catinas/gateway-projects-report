@@ -1,0 +1,7 @@
+
+
+.report-container{
+    display: flex;
+    color: #011F4B;
+    flex-grow: 1;
+}

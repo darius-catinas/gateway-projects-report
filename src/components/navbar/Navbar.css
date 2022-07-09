@@ -1,0 +1,49 @@
+
+.navbar-container{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    border-bottom: 2px solid #F3F6F9;
+
+}
+
+.navbar-left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navbar-center{
+    flex-grow: 10;
+}
+
+.navbar-icon{
+    margin-left: 35px;
+}
+
+.navbar-avatar-container{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-avatar-rect{
+    height: 43px;
+    aspect-ratio: 1;
+    border-radius: 5px;
+    background-color: #F6CA65;
+    color: white;
+    text-align: center;
+    font-size: 23px;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-avatar-name{
+    color: #005B96;
+    margin-left: 18px;
+    margin-right: 100px;
+}

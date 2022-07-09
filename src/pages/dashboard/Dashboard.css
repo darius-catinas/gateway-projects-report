@@ -1,0 +1,37 @@
+
+.dashboard{
+    display: flex;
+    flex: 1;
+    /* max-width: 1000px; */
+    width: 100%;
+    justify-self: center;
+    flex-direction: column;
+}
+
+.dashboard-header{
+    display: flex;
+    margin-top: 40px;
+    justify-content: space-between;
+}
+
+.dashboard-text{
+    width: 30%;
+    line-height: 18.75p;
+}
+
+.dashboard-text > h1{
+    font-size: 24px;
+    color: #011F4B;
+}
+
+.dashboard-text > h3{
+    font-size: 16px;
+    color: #7E8299;
+    margin-top: -2px;
+}
+
+.dashboard-reporting{
+    display: flex;
+    margin-top: 27px;
+
+}
