@@ -6,16 +6,17 @@ import { ReactComponent as ChevronDownIcon } from '../../assets/filter/down-icon
 import { ReactComponent as CalendarIcon } from '../../assets/filter/calendar.svg'
 import { Gateway, Project } from '../../common/interfaces';
 
+export interface ReportGenerateProps{
+  selectedProject: Project | undefined,
+  selectedGateway: Gateway | undefined,
+  fromDate: string,
+  toDate: string
+}
+
 interface ReportFiltersInterface{
   projectList: Array<Project>,
   gatewayList: Array<Gateway>,
-  onSelectProject: (_?: Project) => void,
-  onSelectGateway: (_?: Gateway) => void,
-  onSelectFromDate: (_: string) => void,
-  onSelectToDate: (_ : string) => void,
-  onGenerateReport: () => void,
-  selectedProject?: Project,
-  selectedGateway?: Gateway
+  onGenerateReport: (_ :ReportGenerateProps) => void,
 
 }
 
@@ -52,10 +53,12 @@ const lastDate = new Date('2021-12-31')
 
 const ReportFilters: React.FC<ReportFiltersInterface> =
 ({ projectList, gatewayList,
-  onGenerateReport, onSelectGateway,
-  onSelectProject, selectedProject,
-  selectedGateway, onSelectFromDate,
-  onSelectToDate }: ReportFiltersInterface) => {
+  onGenerateReport }: ReportFiltersInterface) => {
+  const [selectedProject, selectProject] = React.useState<Project | undefined>(undefined);
+  const [selectedGateway, selectGateway] = React.useState<Gateway | undefined>(undefined);
+  const [fromDate, setFromDate] = React.useState<string>('2021-01-01');
+  const [toDate, setToDate] = React.useState<string>('2021-12-31');
+
   const mapProjectOptions = () => {
     const projectOptions = projectList.map(p => ({ id: p.projectId, displayValue: p.name }))
     return [{ id: undefined, displayValue: 'All projects' }, ...projectOptions]
@@ -73,18 +76,22 @@ const ReportFilters: React.FC<ReportFiltersInterface> =
     return mapGatewayOptions()
   }, [gatewayList]);
 
-  const selectGateway = (id?: string) => {
+  const selectGatewayId = (id?: string) => {
     if (id) {
       const currentGateway = gatewayList.filter(g => g.gatewayId === id)[0];
-      onSelectGateway(currentGateway);
-    } else { onSelectGateway(undefined); }
+      selectGateway(currentGateway);
+    } else { selectGateway(undefined); }
   }
 
-  const selectProject = (id?: string) => {
+  const selectProjectId = (id?: string) => {
     if (id) {
       const currentProject = projectList.filter(p => p.projectId === id)[0];
-      onSelectProject(currentProject);
-    } else { onSelectProject(undefined); }
+      selectProject(currentProject);
+    } else { selectProject(undefined); }
+  }
+
+  const onGenerateReportPress = () => {
+    onGenerateReport({ selectedGateway, selectedProject, fromDate, toDate })
   }
 
   return (
@@ -93,31 +100,31 @@ const ReportFilters: React.FC<ReportFiltersInterface> =
         key="project"
         options={projectOptions}
         selectedOption={mapProjectToFilterOption(selectedProject)}
-        onSelect={selectProject}
+        onSelect={selectProjectId}
         expandIcon={<ChevronDownIcon className="h-3 w-3" aria-hidden="true" />}
       />
       <Filter
         key="gateway"
         options={gatewayOptions}
         selectedOption={mapGatewayToFilterOption(selectedGateway)}
-        onSelect={selectGateway}
+        onSelect={selectGatewayId}
         expandIcon={<ChevronDownIcon className="h-3 w-3" aria-hidden="true" />}
       />
       <CalendarFilter
         key="fromDate"
         dateText="From date"
-        onSelectDate={onSelectFromDate}
+        onSelectDate={setFromDate}
         showDate={firstDate}
         expandIcon={<CalendarIcon className="h-3 w-3" aria-hidden="true" />}
       />
       <CalendarFilter
         key="toDate"
         dateText="To date"
-        onSelectDate={onSelectToDate}
+        onSelectDate={setToDate}
         showDate={lastDate}
         expandIcon={<CalendarIcon className="h-3 w-3" aria-hidden="true" />}
       />
-      <GenerateReportButton onPress={onGenerateReport} />
+      <GenerateReportButton onPress={onGenerateReportPress} />
     </div>
   )
 }

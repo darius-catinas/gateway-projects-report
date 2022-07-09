@@ -59,8 +59,9 @@ const BreakdownItemHeader = ({ headerName, total }: BreakdownItemHeaderProps) =>
 }
 
 const BreakdownItem = ({ id, transactionList, headerName, total, shouldDisplayTable, shouldDisplayHeader, onSelectItem, showGateway }: BreakdownItemProps) => {
+  console.log('Should show table', shouldDisplayTable)
   return (
-    <div onClick={() => onSelectItem(id)}>
+    <div key={id} onClick={() => onSelectItem(id)}>
       { shouldDisplayHeader &&
       <BreakdownItemHeader headerName={headerName} total={total} />}
       { shouldDisplayTable &&
@@ -73,6 +74,7 @@ const ReportBreakdown: React.FC<ReportBreakdownProps> = ({ transactionList, tran
   const [selectedItem, setSelectedItem] = useState<string | undefined>(undefined);
 
   const selectOrDeselectItem = (id: string) => {
+    console.log('selecting item', id)
     if (selectedItem === id) {
       setSelectedItem(undefined);
     } else {
@@ -88,7 +90,7 @@ const ReportBreakdown: React.FC<ReportBreakdownProps> = ({ transactionList, tran
         headerName={id}
         total={breakdownMap.get(id)!.total}
         transactionList={breakdownMap.get(id)!.transactionList}
-        shouldDisplayTable={selectedItem === id}
+        shouldDisplayTable={selectedItem === id || (selectedGateway !== undefined && selectedProject !== undefined)}
         onSelectItem={selectOrDeselectItem}
         showGateway={selectedGateway === undefined && selectedProject === undefined}
         shouldDisplayHeader={!(selectedGateway !== undefined && selectedProject !== undefined)}

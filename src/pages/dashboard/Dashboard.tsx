@@ -5,6 +5,8 @@ import { useGetGatewayListQuery, useGetProjectListQuery, useGetReportMutation } 
 import getTransactionBreakdown, { getPercentagesPerItems, getChartData } from '../../services/transaction-utils';
 import { ChartData, Gateway, Project, Transaction, TransactionBreakdown, TransactionPercentageBreakdown } from '../../common/interfaces';
 import './Dashboard.css';
+import { ReportGenerateProps } from '../../components/filter/ReportFilters';
+import { selectProject } from '../../redux/reducer';
 
 function Dashboard() {
   const projectResponse = useGetProjectListQuery()
@@ -18,10 +20,17 @@ function Dashboard() {
   const [chartPercentageData, setChartPercentageData] = useState<ChartData | undefined>(undefined)
   const [transactionList, setTransactionList] = useState<Transaction[]>([])
 
-  const [selectedProject, selectProject] = React.useState<Project | undefined>(undefined);
-  const [selectedGateway, selectGateway] = React.useState<Gateway | undefined>(undefined);
-  const [fromDate, setFromDate] = React.useState<string>('2021-01-01');
-  const [toDate, setToDate] = React.useState<string>('2021-12-31');
+  // const [selectedProject, selectProject] = React.useState<Project | undefined>(undefined);
+  // const [selectedGateway, selectGateway] = React.useState<Gateway | undefined>(undefined);
+  // const [fromDate, setFromDate] = React.useState<string>('2021-01-01');
+  // const [toDate, setToDate] = React.useState<string>('2021-12-31');
+
+  const [{ selectedProject, selectedGateway, fromDate, toDate }, setFilterParameters] = React.useState<ReportGenerateProps>({
+    selectedGateway: undefined,
+    selectedProject: undefined,
+    fromDate: '2021-01-01',
+    toDate: '2021-12-31'
+  })
 
   const constructFetchDto = () => {
     return {
@@ -46,9 +55,13 @@ function Dashboard() {
     )
   }
 
+  // useEffect(() => {
+  //   fetchReport()
+  // }, [])
+
   useEffect(() => {
     fetchReport()
-  }, [])
+  }, [selectedProject, selectedGateway, fromDate, toDate])
 
   useEffect(() => {
     if (gatewayResponse.data) {
@@ -75,13 +88,7 @@ function Dashboard() {
           <ReportFilters
             projectList={projectList}
             gatewayList={gatewayList}
-            onGenerateReport={fetchReport}
-            onSelectGateway={selectGateway}
-            onSelectProject={selectProject}
-            onSelectFromDate={setFromDate}
-            onSelectToDate={setToDate}
-            selectedGateway={selectedGateway}
-            selectedProject={selectedProject}
+            onGenerateReport={setFilterParameters}
           />
         </div>
       </div>
