@@ -1,3 +1,9 @@
+
+.report-container{
+    display: flex;
+    color: #011F4B;
+    flex-grow: 1;
+}
 .report-breakdown-item-header{
     width: 100%;
     display: flex;

@@ -1,0 +1,14 @@
+.footer{
+    display: flex;
+    width: 100%;
+    color: #005B96;
+    margin-left: 100px;
+    align-items: center;
+    margin-top: 20px;
+
+}
+
+.footer > div:hover{
+    text-decoration: underline;
+
+}

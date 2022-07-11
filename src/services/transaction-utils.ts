@@ -46,7 +46,7 @@ const getTransactionBreakdownPerGateway = ({ transactionList }: ReportInputProps
   const breakdown = new Map<string, ItemTransactionPair>();
   let totalCost = 0;
   transactionList.forEach(t => {
-    const { amount, gatewayId, paymentId } = { ...t };
+    const { amount, gatewayId } = { ...t };
     totalCost += amount;
     if (breakdown.has(gatewayId)) {
       const gatewayTransactions = breakdown.get(gatewayId)!;
@@ -54,7 +54,6 @@ const getTransactionBreakdownPerGateway = ({ transactionList }: ReportInputProps
       gatewayTransactions.transactionList.push(t);
       const currentTotalPerGateway = gatewayTotal + amount
       gatewayTransactions.total = currentTotalPerGateway;
-      console.log(`Total for ${gatewayId} at step ${paymentId}: ${currentTotalPerGateway}`)
     } else {
       const newItem = { transactionList: [t], total: amount }
       breakdown.set(gatewayId, newItem);
@@ -88,14 +87,6 @@ export const getPercentagesPerItems: TransactionPercentageComputation = ({ trans
 }
 
 export const getChartData: ChartDataComputation = (breakdown, percentageBreakdown, projectList, gatewayList) => {
-  // id: number;
-  // title: string;
-  // type: string;
-  // data: Element[];
-
-  // id: number;
-  // name: string;
-  // value: number;
   const data: ChartElement[] = [];
   const chartData = {
     title: '',

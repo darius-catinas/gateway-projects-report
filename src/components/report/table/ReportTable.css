@@ -1,3 +1,19 @@
+.first-column{
+    display: flex;
+    justify-content: start !important;
+    margin-left: 21px;
+}
+
+.last-column{
+    display:flex;
+    justify-content: end !important;
+    margin-right: 21px;
+}
+
+th, td{
+    font-weight: 400;
+    font-size: 16px;
+}
 
 .report-table > *{
     font-weight: 400;
@@ -12,10 +28,6 @@
 .report-table > tr:first-child > td{
     display: flex;
 }
-/* 
-.report-table > tr:last-child{
-    display: flex;
-} */
 
 .rt-3 > tr {
     grid-template-columns:  repeat(3, 33%);

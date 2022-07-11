@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatFlotingDisplay, formatDate } from '../../../common/format';
 import { Transaction } from '../../../common/interfaces';
 import './ReportTable.css'
 
@@ -11,11 +12,15 @@ const ReportTable: React.FC<ReportTableProps> = ({ transactionList, showGateway 
   const mapTableRows = () => {
     return transactionList.map(t => (
       <tr key={t.paymentId}>
-        <td key={0}>{t.created}</td>
+        <td key={0} className="first-column">{formatDate(t.created)}</td>
         { showGateway &&
         <td key={1}>{t.gatewayId}</td>}
         <td key={2}>{t.paymentId}</td>
-        <td key={3}>{t.amount}</td>
+        <td key={3} className="last-column">
+          {formatFlotingDisplay(t.amount)}
+          &nbsp;
+          USD
+        </td>
       </tr>
     ))
   }
@@ -23,11 +28,11 @@ const ReportTable: React.FC<ReportTableProps> = ({ transactionList, showGateway 
   const mapTableHeader = () => {
     return (
       <tr key={-1}>
-        <th key={0}>Date</th>
+        <th className="first-column" key={0}>Date</th>
         { showGateway &&
         <th key={2}>Gateway</th>}
         <th key={3}>Transaction ID</th>
-        <th key={4}>Amount</th>
+        <th key={4} className="last-column">Amount</th>
       </tr>
     )
   }

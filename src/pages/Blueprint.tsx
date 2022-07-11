@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/footer/Footer';
 import { Navbar } from '../components/navbar';
 import { Sidebar } from '../components/sidebar';
 
@@ -15,6 +16,7 @@ function Blueprint({ child }: BlueprintProps) {
         {child}
         <div className="sidebar-container" />
       </div>
+      <Footer />
     </div>
   );
 }

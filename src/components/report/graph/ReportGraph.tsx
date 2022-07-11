@@ -1,12 +1,13 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ChartData } from '../../../common/interfaces';
 import './ReportGraph.css';
 import { colors } from '../../../common/format';
 import ReportTotal from '../total/ReportTotal';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface DoughnutChartProps {
   chartData: ChartData;
@@ -35,14 +36,23 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     aspectRatio: 1,
     plugins: {
       legend: {
-        // position: 'bottom' as const,
         display: false
       },
       title: {
         display: false,
         text: chartData ? chartData.title : 'Please select an app',
       },
-
+      datalabels: {
+        formatter: (value: any) => {
+          return `${value}%`;
+        },
+        color: 'white',
+        font: {
+          family: 'Roboto',
+          weight: 600,
+          size: 16
+        }
+      }
     },
     cutout: '50%',
   };
@@ -64,7 +74,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
           ? labels?.map((item: { value: any }) => item?.value)
           : 0,
         borderWidth: 0,
-        spacing: 10,
         borderRadius: 5,
         backgroundColor: colors,
         borderColor: colors,
@@ -78,7 +87,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
       <ChartHeader chartData={chartData} />
       <div className="graph-data">
         <div>
-          <Doughnut data={data} options={options} />
+          <Doughnut data={data} options={options} plugins={[ChartDataLabels]} />
         </div>
       </div>
       <ReportTotal total={500} />

@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import Report from './Report';
+import ReportBreakdown from './breakdown/ReportBreakdown';
 import ReportGraph from './graph/ReportGraph';
 
-export { Report, ReportGraph };
+export { ReportBreakdown, ReportGraph };

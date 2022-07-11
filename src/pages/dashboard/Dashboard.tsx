@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ReportFilters } from '../../components/filter';
-import { Report, ReportGraph } from '../../components/report';
+import { ReportGraph, ReportBreakdown } from '../../components/report';
 import { useGetGatewayListQuery, useGetProjectListQuery, useGetReportMutation } from '../../redux/api';
 import getTransactionBreakdown, { getPercentagesPerItems, getChartData } from '../../services/transaction-utils';
 import { ChartData, Gateway, Project, Transaction, TransactionBreakdown, TransactionPercentageBreakdown } from '../../common/interfaces';
@@ -94,11 +94,13 @@ function Dashboard() {
       </div>
       <div className="dashboard-reporting">
         { reportAggregatedData && (
-        <Report
+        <ReportBreakdown
           selectedGateway={selectedGateway}
           selectedProject={selectedProject}
           transactionList={transactionList}
           transactionBreakdown={reportAggregatedData}
+          projectList={projectList}
+          gatewayList={gatewayList}
         />
         )}
         { shouldDisplayGraph &&
