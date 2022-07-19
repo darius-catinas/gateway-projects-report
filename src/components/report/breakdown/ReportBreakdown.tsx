@@ -28,6 +28,7 @@ interface BreakdownItemProps{
     shouldDisplayHeader: boolean,
     onSelectItem: (id: string) => void,
     showGateway: boolean,
+    gatewayList: Array<Gateway>
 
 }
 interface BreakdownItemHeaderProps{
@@ -60,13 +61,13 @@ const BreakdownItemHeader = ({ headerName, total }: BreakdownItemHeaderProps) =>
   )
 }
 
-const BreakdownItem = ({ id, transactionList, headerName, total, shouldDisplayTable, shouldDisplayHeader, onSelectItem, showGateway }: BreakdownItemProps) => {
+const BreakdownItem = ({ id, transactionList, headerName, total, shouldDisplayTable, shouldDisplayHeader, onSelectItem, showGateway, gatewayList }: BreakdownItemProps) => {
   return (
     <div key={id} onClick={() => onSelectItem(id)}>
       { shouldDisplayHeader &&
       <BreakdownItemHeader headerName={headerName} total={total} />}
       { shouldDisplayTable &&
-      <ReportTable transactionList={transactionList} showGateway={showGateway} />}
+      <ReportTable transactionList={transactionList} showGateway={showGateway} gatewayList={gatewayList} />}
     </div>
   )
 }
@@ -117,6 +118,7 @@ const ReportBreakdown: React.FC<ReportBreakdownProps> = ({ transactionList, tran
         showGateway={selectedGateway === undefined && selectedProject === undefined}
         shouldDisplayHeader={!(selectedGateway !== undefined && selectedProject !== undefined)}
         id={id}
+        gatewayList={gatewayList}
       />
     ))
   }

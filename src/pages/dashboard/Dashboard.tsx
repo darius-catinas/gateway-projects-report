@@ -44,7 +44,14 @@ function Dashboard() {
   const fetchReport = () => {
     getReport(constructFetchDto()).then(
       (data) => {
-        const reportInputData = (data as any).data as Transaction[];
+        // eslint-disable-next-line prefer-const
+        let reportInputData = [...(data as any).data as Transaction[]];
+        reportInputData.sort((t1, t2) => {
+          if (t1.created < t2.created) {
+            return -1;
+          }
+          return 1;
+        })
         const breakdown = getTransactionBreakdown({ transactionList: reportInputData, selectedGateway, selectedProject });
         const percentageResult = getPercentagesPerItems(breakdown);
         const chartData = getChartData(breakdown, percentageResult, projectList, gatewayList);
@@ -54,10 +61,6 @@ function Dashboard() {
       }
     )
   }
-
-  // useEffect(() => {
-  //   fetchReport()
-  // }, [])
 
   useEffect(() => {
     fetchReport()
